@@ -2,36 +2,38 @@ import { useState } from "react";
 
 const Register = () => {
   const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [confirm_password, setConfirmPassword] = useState("");
 
   const registerUser = async (event) => {
     event.preventDefault();
 
-    if (password === passwordRepeat) {
+    if (password === confirm_password) {
       event.preventDefault();
-      const response = await fetch("http://localhost:3001/api/register", {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          firstName,
-          lastName,
+          username,
           email,
+          first_name,
+          last_name,
           password,
+          confirm_password,
         }),
       });
 
       const data = await response.json();
-      if (data.registered) {
+      if (data.success) {
         alert("Account Created")
         window.location.href = "/login"
       } else {
-        alert("Register Failed")
+        alert(`Error : ${data.message}`)
       }
     } else {
       alert("password not match");
@@ -61,7 +63,7 @@ const Register = () => {
             <div className="form-group col-6 text-left">
               <label>First Name</label>
               <input
-                value={firstName}
+                value={first_name}
                 onChange={(e) => setFirstName(e.target.value)}
                 type={"text"}
                 required
@@ -73,7 +75,7 @@ const Register = () => {
             <div className="form-group col-6 text-left">
               <label>Last Name</label>
               <input
-                value={lastName}
+                value={last_name}
                 onChange={(e) => setLastName(e.target.value)}
                 type={"text"}
                 className="form-control form-control-sm"
@@ -107,15 +109,15 @@ const Register = () => {
               />
             </div>
             <div className="form-group col-12 text-left">
-              <label>Retype Password</label>
+              <label>Confirm Password</label>
               <input
-                value={passwordRepeat}
-                onChange={(e) => setPasswordRepeat(e.target.value)}
+                value={confirm_password}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 type={"password"}
                 required
                 minLength={8}
                 className="form-control form-control-sm"
-                name="passwordRepeat"
+                name="confirmPassword"
                 placeholder="Password"
               />
             </div>

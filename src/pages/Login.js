@@ -7,7 +7,7 @@ const Login = () => {
 
   const loginUser = async (event) => {
     event.preventDefault();
-    const response = await fetch("http://localhost:3001/api/login", {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -19,12 +19,12 @@ const Login = () => {
     });
 
     const data = await response.json();
-    if (data.user) {
-      sessionStorage.setItem("token", data.user);
-      alert("Login Successfull");
+    if (data.success) {
+      sessionStorage.setItem("token", data.token);
+      alert(data.message);
       window.location.href = "/dashboard";
     } else {
-      alert("Please check yout email or password");
+      alert(`Error: ${data.message}`);
     }
   };
 
@@ -43,7 +43,7 @@ const Login = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 type={"text"}
                 className="form-control form-control-sm"
-                name="email"
+                name="username"
                 placeholder="Username"
               ></input>
             </div>
