@@ -22,7 +22,7 @@ const Login = () => {
     if (data.success) {
       sessionStorage.setItem("token", data.token);
       alert(data.message);
-      window.location.href = "/dashboard";
+      window.location.href = "/movies";
     } else {
       alert(`Error: ${data.message}`);
     }

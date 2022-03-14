@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const MovieCard = () => {
 
     const [allMovies, setAllMovies] = useState([])
-    
+
+    const history = useHistory()
+
     const fetchAllMovies = async () => {
         const response = await fetch("http://localhost:5000/api/movies", {
             method: "GET",
@@ -18,6 +21,8 @@ const MovieCard = () => {
             setAllMovies(data.message)
         } else {
             alert(data.message)
+            localStorage.removeItem("token")
+            history.replace("/")
         }
     }
 
@@ -25,8 +30,10 @@ const MovieCard = () => {
 
     return (
         <div>
-            {allMovies.map(data => (
-                <div className="card mt-3">
+            {allMovies?.map((data) => (
+                <div className="card mt-3" onClick={()=> {
+                    window.location.href = `/movies/${data.movie_id}`
+                }}>
                     <div className="card-body">
                         <h3 className="card-title">
                             {data.title}

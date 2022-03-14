@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 import { useHistory } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 
-const Dashboard = () => {
+const Movies = () => {
   const history = useHistory();
   let first_name = "";
   let last_name = "";
@@ -13,6 +13,7 @@ const Dashboard = () => {
     history.replace("/login");
   } else {
     const user = jwtDecode(token)
+    
     first_name = user.first_name
     last_name = user.last_name
 
@@ -29,4 +30,4 @@ const Dashboard = () => {
   };
 };
 
-export default Dashboard;
+export default Movies;
